@@ -17,6 +17,7 @@ exports.handler = function (json, context) {
         // A list of URL's to call for each applicationId
         var handlers = {
             'appId':'url',
+	    // replace xxxxxxxx with your Alexa Skill Kit app ID here
             'amzn1.ask.skill.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx': 'maker.ifttt.com'
             };
 
@@ -30,6 +31,7 @@ exports.handler = function (json, context) {
         // An object of options to indicate where to post to
         var post_options = {
 			host: 'maker.ifttt.com',
+			//replace xxxxx with your IFTTT maker key
 			path: '/trigger/' + trigger +'/with/key/xxxxxxxxxxxxxxxxxx',
 			method: 'POST',
 			headers: {
