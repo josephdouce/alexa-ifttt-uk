@@ -17,7 +17,7 @@ exports.handler = function (json, context) {
         // A list of URL's to call for each applicationId
         var handlers = {
             'appId':'url',
-	    // replace xxxxxxxx with your Alexa Skill Kit app ID here
+	    // replace xxxxxxxx with your Alexa Skill Kit app ID
             'amzn1.ask.skill.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx': 'maker.ifttt.com'
             };
 
