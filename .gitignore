@@ -45,3 +45,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+*.zip
+bfg.jar
+clean.bat
+passwords.txt
