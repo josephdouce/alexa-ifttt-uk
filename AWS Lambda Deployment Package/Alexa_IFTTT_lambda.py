@@ -10,6 +10,7 @@ http://amzn.to/1LGWsLG
 from __future__ import print_function
 import requests
 import json
+from keys import ifttt_key, alexa_skill_id
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -79,7 +80,8 @@ def make_post_request(trigger):
     user.
     """
 
-    url = 'https://maker.ifttt.com/trigger/' + trigger + '/with/key/***REMOVED***'
+    #
+    url = 'https://maker.ifttt.com/trigger/' + trigger + '/with/key/' + ifttt_key
     data = {'value1': 'data1', 'value2': 'data2', 'value3': 'data3'}
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     r = requests.post(url, data=json.dumps(data), headers=headers)
@@ -196,7 +198,7 @@ def lambda_handler(event, context):
     function.
     """
     if event['session']['application']['applicationId'] != \
-        "***REMOVED***":
+        alexa_skill_id:
         raise ValueError("Invalid Application ID")
 
     if event['session']['new']:
