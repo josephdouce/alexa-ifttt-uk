@@ -1,11 +1,11 @@
 {
   "intents": [
     {
-      "intent": "IFTTTIntent",
+      "intent": "TriggerIntent",
       "slots": [
         {
-            "name": "event",
-            "type": "EVENTS"
+            "name": "trigger",
+            "type": "TRIGGERS"
         }
       ]
     }
