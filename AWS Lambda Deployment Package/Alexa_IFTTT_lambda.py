@@ -72,17 +72,21 @@ def handle_session_end_request():
         card_title, speech_output, None, should_end_session))
 
 
-def create_trigger_attributes(trigger):
-    return {"triggerWord": trigger}
+def create_session_attributes(trigger,dataone,datatwo,datathree):
+    return {
+    "triggerWord": trigger,
+    "dataOne": dataone,
+    "dataTwo":datatwo,
+    "dataThree":datathree }
 
-def make_post_request(trigger):
+def make_post_request(trigger,dataone,datatwo,datathree):
     """ Sets the trigger in the session and prepares the speech to reply to the
     user.
     """
 
     #
     url = 'https://maker.ifttt.com/trigger/' + trigger + '/with/key/' + ifttt_key
-    data = {'value1': 'data1', 'value2': 'data2', 'value3': 'data3'}
+    data = {'value1': dataone, 'value2': datatwo, 'value3': datathree}
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     r = requests.post(url, data=json.dumps(data), headers=headers)
 
@@ -97,38 +101,41 @@ def post_trigger(intent, session):
 
     if 'trigger' in intent['slots']:
         trigger = intent['slots']['trigger']['value']
-        session_attributes = create_trigger_attributes(trigger)
-        make_post_request(trigger)
+        dataone = intent['slots']['dataone']['value']
+        datatwo = intent['slots']['datatwo']['value']
+        datathree = intent['slots']['datathree']['value']
+        session_attributes = create_session_attributes(trigger,dataone,datatwo,datathree)
+        make_post_request(trigger,dataone,datatwo,datathree)
         speech_output = "Thanks, I have triggered " + trigger
         reprompt_text = "This is a reprompt"
     else:
-        speech_output = "I'm not what you would like to do" \
+        speech_output = "I'm not sure what you would like to do" \
                         "Please try again."
-        reprompt_text = "I'm not what you would like to do"
+        reprompt_text = "I'm not sure what you would like to do"
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
 
-def post_trigger_with_data(intent, session):
-    session_attributes = {}
-    reprompt_text = None
-
-    if session.get('attributes', {}) and "favorite" in session.get('attributes', {}):
-        trigger = session['attributes']['triggerWord']
-        speech_output = "Your trigger is "\
-                        + trigger + \
-                        ". Goodbye."
-        should_end_session = True
-    else:
-        speech_output = "I'm not sure what your trigger is. "
-        should_end_session = False
-
-    # Setting reprompt_text to None signifies that we do not want to reprompt
-    # the user. If the user does not respond or says something that is not
-    # understood, the session will end.
-
-    return build_response(session_attributes, build_speechlet_response(
-        intent['name'], speech_output, reprompt_text, should_end_session))
+# def post_trigger_with_data(intent, session):
+#     session_attributes = {}
+#     reprompt_text = None
+#
+#     if session.get('attributes', {}) and "favorite" in session.get('attributes', {}):
+#         trigger = session['attributes']['triggerWord']
+#         speech_output = "Your trigger is "\
+#                         + trigger + \
+#                         ". Goodbye."
+#         should_end_session = True
+#     else:
+#         speech_output = "I'm not sure what your trigger is. "
+#         should_end_session = False
+#
+#     # Setting reprompt_text to None signifies that we do not want to reprompt
+#     # the user. If the user does not respond or says something that is not
+#     # understood, the session will end.
+#
+#     return build_response(session_attributes, build_speechlet_response(
+#         intent['name'], speech_output, reprompt_text, should_end_session))
 
 # --------------- Events ------------------
 
@@ -163,8 +170,8 @@ def on_intent(intent_request, session):
     # Dispatch to your skill's intent handlers
     if intent_name == "TriggerIntent":
         return post_trigger(intent, session)
-    elif intent_name == "TriggerWithDataIntent":
-        return post_trigger_with_data(intent, session)
+    # elif intent_name == "TriggerWithDataIntent":
+    #     return post_trigger_with_data(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":

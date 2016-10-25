@@ -1,1 +1,4 @@
 TriggerIntent {trigger}
+TriggerIntent {trigger} {dataone}
+TriggerIntent {trigger} {dataone} {datatwo}
+TriggerIntent {trigger} {dataone} {datatwo} {datathree}
