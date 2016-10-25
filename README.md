@@ -7,7 +7,7 @@ Since the Amazon Echo is not working with the IFTTT in the UK I made a hack to g
 
 IFTTT Maker accepts POST in the form
 
-![alt tag](http://puu.sh/rV58N/0a59714925.png)
+![alt tag](http://puu.sh/rV5bD/36787206bb.png)
 
 Heres an example of it working, I said "Alexa, tell trigger test this is data" to trigger an email to me in IFTTT with the data values as the body.
 
