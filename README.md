@@ -5,11 +5,9 @@ Amazon Echo Alexa Integration with IFTTT  for UK
 
 Since the Amazon Echo is not working with the IFTTT in the UK I made a hack to get around it by creating my own Echo Skill and AWS Service to interface with the Maker Channel of IFTTT. 
 
-Heres an example of it working, I said "Alexa, tell trigger test" and had the word "test" trigger an email to me in IFTTT with the data values as the body.
+Heres an example of it working, I said "Alexa, tell trigger test this is data" to trigger an email to me in IFTTT with the data values as the body.
 
-![alt tag](http://puu.sh/rUypl/647da949b5.png)
-
-Currently it only sends the trigger command but the structure is there already to add the 3 data values (it actually already sends them they are just static data1, data2, data3) as you can see above.
+![alt tag](http://puu.sh/rUZx6/43bdf5fad5.png)
 
 Alexa Skills Kit 
 
