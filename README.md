@@ -7,7 +7,7 @@ Heres an example of it working, I said "Alexa, tell trigger test" and had the wo
 
 ![alt tag](http://puu.sh/rUypl/647da949b5.png)
 
-Currently it only sends the trigger command but the structure is there already to add the 3 data values (it actually already sends them they are just static data1, data2, data3)
+Currently it only sends the trigger command but the structure is there already to add the 3 data values (it actually already sends them they are just static data1, data2, data3) as you can see above.
 
 Alexa Skills Kit 
 
