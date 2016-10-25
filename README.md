@@ -1,5 +1,5 @@
 # Alexa-IFTTT-UK
-Amazon Echo Alexa Integration with IFTTT  for UK 
+## Amazon Echo Alexa Integration with IFTTT  for UK 
 
 ![alt tag](http://puu.sh/rUyPJ/7bccb76299.png)
 
@@ -7,15 +7,34 @@ Since the Amazon Echo is not working with the IFTTT in the UK I made a hack to g
 
 Heres an example of it working, I said "Alexa, tell trigger test this is data" to trigger an email to me in IFTTT with the data values as the body.
 
+### The UI 
+
+Command >> Launch Maker 
+  Response >> Welcome to if this then that, please tell me the trigger you would like to activate.
+
+Command >> {trigger} {dataone} {datatwo} {datathree} using Maker
+ Response >> I have triggered {trigger} or 
+ or
+ Response >> I'm not sure what you would like to do, please try again
+ 
+  Reprompt >> Is that everything, say stop to end.
+    Command >> {trigger} 
+     Response >> I have triggered {trigger}
+     or
+     Response >> I'm not sure what you would like to do, please try again
+       Reprompt >> Is that everything, say stop to end.
+         Command >> Stop
+          Response >> Thanks for trying IFTTT, have a nice day.
+
 ![alt tag](http://puu.sh/rUZx6/43bdf5fad5.png)
 
-Alexa Skills Kit 
+### Alexa Skills Kit 
 
 Create a new skill with the following parameters, you will need to come back and input your AWS ID into in the config section.
 
 ![alt tag](http://puu.sh/rUZCd/7a1cdc5a4a.png)
 
-AWS
+### AWS
 
 Edit keys.py with your Amazon Skills Kit app ID and IFTTT key then 
 
