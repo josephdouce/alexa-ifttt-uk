@@ -7,6 +7,8 @@ Since the Amazon Echo is not working with the IFTTT in the UK I made a hack to g
 
 Heres an example of it working, I said "Alexa, tell trigger test this is data" to trigger an email to me in IFTTT with the data values as the body.
 
+![alt tag](http://puu.sh/rUZx6/43bdf5fad5.png)
+
 ### The UI 
 
 ```
@@ -27,8 +29,6 @@ Command >> {trigger} {dataone} {datatwo} {datathree} using Maker
          Command >> Stop
           Response >> Thanks for trying IFTTT, have a nice day.
 ```
-
-![alt tag](http://puu.sh/rUZx6/43bdf5fad5.png)
 
 ### Alexa Skills Kit 
 
