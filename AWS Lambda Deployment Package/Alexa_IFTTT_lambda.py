@@ -25,12 +25,12 @@ def build_speechlet_response(title, output, reprompt_text, should_end_session):
             'title': "SessionSpeechlet - " + title,
             'content': "SessionSpeechlet - " + output
         },
-        'reprompt': {
-            'outputSpeech': {
-                'type': 'PlainText',
-                'text': reprompt_text
-            }
-        },
+        #'reprompt': {
+        #    'outputSpeech': {
+        #        'type': 'PlainText',
+        #        'text': reprompt_text
+        #    }
+        #},
         'shouldEndSession': should_end_session
     }
 
@@ -64,7 +64,7 @@ def get_welcome_response():
 
 def handle_session_end_request():
     card_title = "Session Ended"
-    speech_output = "Thank you for trying if this then that" \
+    speech_output = "Thank you for trying if this then that..." \
                     "Have a nice day!"
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
@@ -101,7 +101,7 @@ def trigger_intent(intent, session):
 
     card_title = intent['name']
     session_attributes = {}
-    should_end_session = False
+    should_end_session = True
 
     if 'value' in intent['slots']['dataone']:
         dataone = intent['slots']['dataone']['value']
