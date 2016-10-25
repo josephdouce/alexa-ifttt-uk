@@ -9,7 +9,8 @@ Heres an example of it working, I said "Alexa, tell trigger test this is data" t
 
 ### The UI 
 
-```Command >> Launch Maker 
+```
+Command >> Launch Maker 
   Response >> Welcome to if this then that, please tell me the trigger you would like to activate.
 
 Command >> {trigger} {dataone} {datatwo} {datathree} using Maker
