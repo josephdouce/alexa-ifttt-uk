@@ -13,7 +13,7 @@ Alexa Skills Kit
 
 Create a new skill with the following parameters, you will need to come back and input your AWS ID into in the config section.
 
-![alt tag](http://puu.sh/rUxUK/e48f2fff78.png)
+![alt tag](http://puu.sh/rUZCd/7a1cdc5a4a.png)
 
 AWS
 
