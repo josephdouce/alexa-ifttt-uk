@@ -49,5 +49,4 @@ Temporary Items
 *.zip
 bfg.jar
 clean.bat
-passwords.txt
-aws lambda deployment package/keys.py
+aws lambda delpoyment package/mykeys.py

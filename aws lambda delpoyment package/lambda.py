@@ -11,6 +11,8 @@ from __future__ import print_function
 import json
 import requests
 from keys import ifttt_key, alexa_skill_id
+if ifttt_key == "your_key":
+    from mykeys import ifttt_key, alexa_skill_id
 
 # --------------- Helpers that build all of the responses ----------------------
 
