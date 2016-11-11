@@ -10,13 +10,15 @@ http://amzn.to/1LGWsLG
 from __future__ import print_function
 import json
 import requests
-from keys import ifttt_key, alexa_skill_id
-if ifttt_key == "your_key":
-    from mykeys import ifttt_key, alexa_skill_id
+from keys import alexa_skill_id
+if alexa_skill_id == "your_skill_id":
+    from mykeys import alexa_skill_id
 
 # --------------- Helpers that build all of the responses ----------------------
 
+
 def build_speechlet_response(title, output, reprompt_text, should_end_session):
+    """ builds speechlet response """
     return {
         'outputSpeech': {
             'type': 'PlainText',
@@ -27,17 +29,18 @@ def build_speechlet_response(title, output, reprompt_text, should_end_session):
             'title': "SessionSpeechlet - " + title,
             'content': "SessionSpeechlet - " + output
         },
-        #'reprompt': {
-        #    'outputSpeech': {
-        #        'type': 'PlainText',
-        #        'text': reprompt_text
-        #    }
-        #},
+        'reprompt': {
+            'outputSpeech': {
+                'type': 'PlainText',
+                'text': reprompt_text
+            }
+        },
         'shouldEndSession': should_end_session
     }
 
 
 def build_response(session_attributes, speechlet_response):
+    """ builds json response """
     return {
         'version': '1.0',
         'sessionAttributes': session_attributes,
@@ -55,16 +58,17 @@ def get_welcome_response():
     session_attributes = {}
     card_title = "Welcome"
     speech_output = "Welcome to if this then that" \
-                    "Please tell me the trigger you would like to activate."
+                    "Please tell me the trigger you would like to activate and any asscoicated values."
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
-    reprompt_text = "Please tell me the trigger you would like to activate."
+    reprompt_text = "Please tell me the trigger you would like to activate and any asscoicated values."
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
 
 def handle_session_end_request():
+    """ handles end session """
     card_title = "Session Ended"
     speech_output = "Thank you for trying if this then that..." \
                     "Have a nice day!"
@@ -83,14 +87,16 @@ def create_session_attributes(trigger, dataone, datatwo, datathree):
         "dataOne": dataone,
         "dataTwo": datatwo,
         "dataThree": datathree
-        }
+    }
 
-def make_post_request(trigger, dataone, datatwo, datathree):
+
+def make_post_request(trigger, dataone, datatwo, datathree, session):
     """ Makes a POST request to the IFTTT server with the data from the Alexa
     JSON
     """
 
-    url = 'https://maker.ifttt.com/trigger/' + trigger + '/with/key/' + ifttt_key
+    url = 'https://maker.ifttt.com/trigger/' + trigger + \
+        '/with/key/' + session['user']['accessToken']
     data = {'value1': dataone, 'value2': datatwo, 'value3': datathree}
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     request = requests.post(url, data=json.dumps(data), headers=headers)
@@ -121,7 +127,7 @@ def trigger_intent(intent, session):
     if 'value' in intent['slots']['trigger']:
         trigger = intent['slots']['trigger']['value']
         session_attributes = create_session_attributes(trigger, dataone, datatwo, datathree)
-        make_post_request(trigger, dataone, datatwo, datathree)
+        make_post_request(trigger, dataone, datatwo, datathree, session)
         speech_output = "Thanks, I have triggered " + trigger
         reprompt_text = "Is that everything?" \
                         "To finish say stop"
@@ -199,7 +205,7 @@ def lambda_handler(event, context):
     function.
     """
     if event['session']['application']['applicationId'] != \
-        alexa_skill_id:
+            alexa_skill_id:
         raise ValueError("Invalid Application ID")
 
     if event['session']['new']:

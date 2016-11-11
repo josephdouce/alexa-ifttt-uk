@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Who Are The Tickled?</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Dancing+Script:700" rel="stylesheet" type="text/css">
+      <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+      <!--tag manager jQuery plugin. see https://maxfavilli.com/jquery-tag-manager-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tagmanager/3.0.2/tagmanager.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tagmanager/3.0.2/tagmanager.min.css">
+
+      <!--I'm keeping everything in one file for simplicity/ease of tinkering-->
+      <link rel="stylesheet" href="index.css">
+      <script>
+        $(function(){
+          $("#the-tickled").tagsManager();
+          $("#add-more").click(pushTag);
+          $("#here-we-go").click(function(){
+                pushTag();
+var tags = $("#the-tickled").tagsManager("tags");
+                if(tags.length == 0){
+                  alert("The Tickle Monster needs to know who to tickle! Please enter some names.");
+                  return false; //cancel click
+                }
+
+                //assigned by Amazon
+                var vendorId = "MGNDD3J9YCH2Q";
+                var returnUrl = "https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=" + vendorId;
+
+                //get the query string values amazon passed to us
+                var amazonValues = getQueryParameters();
+
+                //hacking the OAuth protocol to store tickle victims'
+                //names as the access token?!?
+                //no need for databases or passwords?!? how sneaky and
+                //mischievous! so like the Tickle Monster.
+                var theTickled = encodeURIComponent(tags.toString());
+
+                //redirect the user back to Amazon
+                //so we can store their choices for use with the skill.
+                //see description of implicit grant flow here:
+                //https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/linking-an-alexa-user-with-a-user-in-your-system
+                location = returnUrl
+                            + "#state="
+                            + amazonValues.state
+                            //the hack part
+                            + "&access_token="
+                            + theTickled
+                            + "&token_type=Bearer";
+              }
+          );
+
+          function pushTag(){
+            var text = $("#the-tickled").val();
+            if(text != "")
+               $("#the-tickled").tagsManager("pushTag", text);
+          }
+
+          //credit: https://css-tricks.com/snippets/jquery/get-query-params-object/
+          function getQueryParameters(str) {
+            return (str || document.location.search).replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
+          }
+        })
+      </script>
+  </head>
+  <body>
+      <div class="centered">
+        <div><img src="/images/ifttt_maker.png" alt="The Tickle Monster"/></div>
+        <div id="tickle-monster-title">IFTTT Maker Connect</div>
+        <label for="the-tickled">
+          Please copy and paste your <br/>IFTTT Maker Key below
+        </label>
+      </div>
+        <div id="name-inputs">
+          <input id="the-tickled" type="text" name="tags" placeholder="Enter A Name" class="tm-input-info big-space" />
+          <br/>
+          <input id="add-more" class="themed-button" type="button" value="Add">
+        </div>
+        <div class="centered"><a href="#" id="here-we-go">Connect!</a></div>
+  </body>
+</html>
