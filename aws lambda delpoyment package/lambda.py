@@ -17,7 +17,7 @@ if alexa_skill_id == "your_skill_id":
 # --------------- Helpers that build all of the responses ----------------------
 
 
-def build_speechlet_response(title, output, reprompt_text, should_end_session):
+def build_speechlet_response(title, card_type, output, reprompt_text, should_end_session):
     """ builds speechlet response """
     return {
         'outputSpeech': {
@@ -25,9 +25,9 @@ def build_speechlet_response(title, output, reprompt_text, should_end_session):
             'text': output
         },
         'card': {
-            'type': 'Simple',
-            'title': "SessionSpeechlet - " + title,
-            'content': "SessionSpeechlet - " + output
+            'type': card_type,
+            'title': title,
+            'content': output
         },
         'reprompt': {
             'outputSpeech': {
@@ -54,28 +54,29 @@ def get_welcome_response():
     """ If we wanted to initialize the session to have some attributes we could
     add those here
     """
-
+    card_type = 'Simple'
     session_attributes = {}
     card_title = "Welcome"
-    speech_output = "Welcome to if this then that" \
+    speech_output = "Welcome to maker connect. " \
                     "Please tell me the trigger you would like to activate and any asscoicated values."
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
     reprompt_text = "Please tell me the trigger you would like to activate and any asscoicated values."
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
+        card_title, card_type, speech_output, reprompt_text, should_end_session))
 
 
 def handle_session_end_request():
     """ handles end session """
+    card_type = 'Simple'
     card_title = "Session Ended"
-    speech_output = "Thank you for trying if this then that..." \
+    speech_output = "Thank you for maker connect. " \
                     "Have a nice day!"
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
     return build_response({}, build_speechlet_response(
-        card_title, speech_output, None, should_end_session))
+        card_title, card_type, speech_output, None, should_end_session))
 
 
 def create_session_attributes(trigger, dataone, datatwo, datathree):
@@ -106,7 +107,7 @@ def trigger_intent(intent, session):
     """ Gets the values from the session and prepares the speech to reply to the
     user.
     """
-
+    card_type = 'Simple'
     card_title = intent['name']
     session_attributes = {}
     should_end_session = True
@@ -127,17 +128,27 @@ def trigger_intent(intent, session):
     if 'value' in intent['slots']['trigger']:
         trigger = intent['slots']['trigger']['value']
         session_attributes = create_session_attributes(trigger, dataone, datatwo, datathree)
-        make_post_request(trigger, dataone, datatwo, datathree, session)
         speech_output = "Thanks, I have triggered " + trigger
-        reprompt_text = "Is that everything?" \
-                        "To finish say stop"
-    else:
-        speech_output = "I'm not sure what you would like to do" \
-                        "Please try again."
-        reprompt_text = "I'm not sure what you would like to do"
+        reprompt_text = ""
+        try:
+            make_post_request(trigger, dataone, datatwo, datathree, session)
+        except:
+            speech_output = "Please use link account to enter a maker key."
+            card_type = 'LinkAccount'
 
-    return build_response(session_attributes, build_speechlet_response(
-        card_title, speech_output, reprompt_text, should_end_session))
+
+    else:
+        speech_output = "I'm not sure what you would like to do. " \
+                        "Please try again."
+        reprompt_text = "I'm not sure what you would like to do."
+
+    if trigger == "help":
+        return get_welcome_response()
+    elif trigger == "stop":
+        return handle_session_end_request()
+    else:
+        return build_response(session_attributes, build_speechlet_response(
+            card_title, card_type, speech_output, reprompt_text, should_end_session))
 
 
 def on_session_started(session_started_request, session):
